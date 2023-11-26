@@ -1,0 +1,22 @@
+import librosa
+import numpy as np
+from pyAudioAnalysis import audioBasicIO
+from pyAudioAnalysis import audioSegmentation
+
+
+original_audio_file = "original_audio7.wav"
+edited_audio_file = "new_audio.wav"
+
+
+[Fs_original, x_original] = audioBasicIO.read_audio_file(original_audio_file)
+[Fs_edited, x_edited] = audioBasicIO.read_audio_file(edited_audio_file)
+
+
+segments_original = audioSegmentation.silence_removal(x_original, Fs_original, 0.020, 0.020, smooth_window=1.0, weight=0.3, plot=False)
+segments_edited = audioSegmentation.silence_removal(x_edited, Fs_edited, 0.020, 0.020, smooth_window=1.0, weight=0.3, plot=False)
+
+
+if segments_original == segments_edited:
+    print("The audio files are identical or have not been edited.")
+else:
+    print("Differences or voice edits detected between the audio files.")
